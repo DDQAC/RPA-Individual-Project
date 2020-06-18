@@ -1,0 +1,2 @@
+# RPA-Individual-Project
+Automating some of the backend administration around signups, aggregating content, the end delivery, and reporting for a new content aggregator app. Objectives are to (A) Design requirements gathering documents for further process knowledge elicitation (B) Create and construct a full Design Process Definition (DPD) document for the automation and (C) Design and develop an RPA solution that will automate the process definition
