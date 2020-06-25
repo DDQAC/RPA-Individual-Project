@@ -6,13 +6,13 @@
     <x:Property Name="city" Type="OutArgument(x:String)" />
     <x:Property Name="postcode" Type="OutArgument(x:String)" />
     <x:Property Name="country" Type="OutArgument(x:String)" />
-    <x:Property Name="userPref" Type="OutArgument(x:String)" />
     <x:Property Name="interval" Type="OutArgument(x:String)" />
     <x:Property Name="config" Type="InArgument(njl:JObject)" />
     <x:Property Name="phoneComplete" Type="OutArgument(x:String)" />
     <x:Property Name="browser" Type="InArgument(ui:Browser)" />
+    <x:Property Name="contentPref" Type="OutArgument(x:String)" />
   </x:Members>
-  <sap:VirtualizedContainerService.HintSize>680,2223</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>680,2263</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="18">
@@ -246,9 +246,9 @@
         </scg:List>
       </ui:MultipleAssign.AssignOperations>
     </ui:MultipleAssign>
-    <Assign DisplayName="Choose Random User Preference" sap:VirtualizedContainerService.HintSize="569,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign DisplayName="Choose Random Content Preference" sap:VirtualizedContainerService.HintSize="569,60" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
-        <OutArgument x:TypeArguments="x:String">[userPref]</OutArgument>
+        <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
       </Assign.To>
       <Assign.Value>
         <InArgument x:TypeArguments="x:String">[(config("PreferenceList").ToArray)(rand.Next(0, (config("PreferenceList").ToArray).Count)).ToString]</InArgument>
