@@ -1,0 +1,964 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="DailyReport" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:p="http://schemas.uipath.com/workflow/activities/word" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="config" Type="InArgument(njl:JObject)" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>1512,6914</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="32">
+      <x:String>System.Activities</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="32">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Word</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Daily Report" sap:VirtualizedContainerService.HintSize="1522,6849" sap2010:WorkflowViewState.IdRef="Sequence_5">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:IEnumerable(ui:QueueItem)" Name="retrievedRegistrationLogs" />
+      <Variable x:TypeArguments="scg:IEnumerable(ui:QueueItem)" Name="retrievedUpdateLogs" />
+      <Variable x:TypeArguments="scg:IEnumerable(ui:QueueItem)" Name="retrievedDeleteLogs" />
+      <Variable x:TypeArguments="scg:IEnumerable(ui:QueueItem)" Name="retrievedTransmissionLogs" />
+      <Variable x:TypeArguments="s:Nullable(s:DateTime)" Name="toTime" />
+      <Variable x:TypeArguments="s:Nullable(s:DateTime)" Name="fromTime" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Retrieve Logs" sap:VirtualizedContainerService.HintSize="1480,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_19" UnSafe="False" WorkflowFileName="RetrieveLogs.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <OutArgument x:TypeArguments="scg:IEnumerable(ui:QueueItem)" x:Key="retrievedRegistrationLogs">[retrievedRegistrationLogs]</OutArgument>
+        <OutArgument x:TypeArguments="scg:IEnumerable(ui:QueueItem)" x:Key="retrievedUpdateLogs">[retrievedUpdateLogs]</OutArgument>
+        <OutArgument x:TypeArguments="scg:IEnumerable(ui:QueueItem)" x:Key="retrievedDeleteLogs">[retrievedDeleteLogs]</OutArgument>
+        <OutArgument x:TypeArguments="scg:IEnumerable(ui:QueueItem)" x:Key="retrievedTransmissionLogs">[retrievedTransmissionLogs]</OutArgument>
+        <InOutArgument x:TypeArguments="s:Nullable(s:DateTime)" x:Key="toTime">[toTime]</InOutArgument>
+        <InOutArgument x:TypeArguments="s:Nullable(s:DateTime)" x:Key="fromTime">[fromTime]</InOutArgument>
+        <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
+    <Sequence DisplayName="Create Report" sap:VirtualizedContainerService.HintSize="1480,6630" sap2010:WorkflowViewState.IdRef="Sequence_14">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <p:WordApplicationScope DisplayName="Create Word Report" FilePath="[&quot;Reports/Word Report (&quot; + fromTime.ToString.Replace(&quot;/&quot;, &quot;-&quot;).Replace(&quot;:&quot;, &quot;-&quot;) + &quot; - &quot; + toTime.ToString.Replace(&quot;/&quot;, &quot;-&quot;).Replace(&quot;:&quot;, &quot;-&quot;) + &quot;).docx&quot;]" sap:VirtualizedContainerService.HintSize="1438,6538" sap2010:WorkflowViewState.IdRef="WordApplicationScope_1">
+        <p:WordApplicationScope.Body>
+          <ActivityAction x:TypeArguments="ui:WordDocument">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="ui:WordDocument" Name="WordDocumentScope" />
+            </ActivityAction.Argument>
+            <Sequence DisplayName="Write Logs to Word" sap:VirtualizedContainerService.HintSize="1404,6429" sap2010:WorkflowViewState.IdRef="Sequence_15">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <p:WordAppendText DisplayName="Add Title" sap:VirtualizedContainerService.HintSize="1362,104" sap2010:WorkflowViewState.IdRef="WordAppendText_1" NewLine="False" Text="[&quot;Toborlerone Process Logs:&quot; + vbNewLine + fromTime.ToString + &quot; - &quot; + toTime.ToString]" />
+              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Title" sap:VirtualizedContainerService.HintSize="1075,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="FormatReportTitle.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+              <If Condition="[retrievedRegistrationLogs.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="1075,1380" sap2010:WorkflowViewState.IdRef="If_2">
+                <If.Then>
+                  <Sequence DisplayName="Add Registrations" sap:VirtualizedContainerService.HintSize="554,1233" sap2010:WorkflowViewState.IdRef="Sequence_47">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Add Registrations Header" sap:VirtualizedContainerService.HintSize="512,104" sap2010:WorkflowViewState.IdRef="WordAppendText_2" Text="Registrations" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="512,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_21" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:ForEach x:TypeArguments="ui:QueueItem" CurrentIndex="{x:Null}" DisplayName="For Each Registration Log" sap:VirtualizedContainerService.HintSize="512,870" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[retrievedRegistrationLogs]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="ui:QueueItem">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="ui:QueueItem" Name="log" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Extract Details and Add to Report" sap:VirtualizedContainerService.HintSize="476,737" sap2010:WorkflowViewState.IdRef="Sequence_34">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="processState" />
+                              <Variable x:TypeArguments="x:String" Name="email" />
+                              <Variable x:TypeArguments="x:String" Name="fullName" />
+                              <Variable x:TypeArguments="x:String" Name="dateTimeStarted" />
+                              <Variable x:TypeArguments="x:String" Name="street" />
+                              <Variable x:TypeArguments="x:String" Name="city" />
+                              <Variable x:TypeArguments="x:String" Name="postcode" />
+                              <Variable x:TypeArguments="x:String" Name="country" />
+                              <Variable x:TypeArguments="x:String" Name="phone" />
+                              <Variable x:TypeArguments="x:String" Name="contentPref" />
+                              <Variable x:TypeArguments="x:String" Name="interval" />
+                              <Variable x:TypeArguments="x:String" Name="summary" />
+                              <Variable x:TypeArguments="x:String" Name="newDetails" />
+                              <Variable x:TypeArguments="x:String" Name="logInfo" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:MultipleAssign DisplayName="Extract Log Info" sap:VirtualizedContainerService.HintSize="434,501" sap2010:WorkflowViewState.IdRef="MultipleAssign_4">
+                              <ui:MultipleAssign.AssignOperations>
+                                <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_11">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[processState]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Status.ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_12">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[dateTimeStarted]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.StartTransactionTime.ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_13">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Email").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_14">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[fullName]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("First Name").ToString + " " + log.SpecificContent("Last Name").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_15">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[street]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Street").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_16">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[city]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("City").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_17">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[postcode]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Postcode").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_18">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[country]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Country").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_19">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[phone]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Phone Number").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_20">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Content Preference").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_21">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Interval").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_22">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[summary]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.Format("{0} - {1} Registration @ {2}" + vbNewLine, email, processState, dateTimeStarted)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_23">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[newDetails]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.format("{0}, {1}, {2}, {3}, {4}, {5}" + vbNewLine + "wants to receive {6} content {7}", fullName, street, city, postcode, country, phone, contentPref, interval)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_24">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[logInfo]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[vbTab + summary + newDetails]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                </scg:List>
+                              </ui:MultipleAssign.AssignOperations>
+                            </ui:MultipleAssign>
+                            <p:WordAppendText DisplayName="Add Log" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_3" Text="[logInfo]" />
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                    </ui:ForEach>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="No Registrations" sap:VirtualizedContainerService.HintSize="476,467" sap2010:WorkflowViewState.IdRef="Sequence_51">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Add Registrations Header" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_10" Text="Registrations" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="434,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_25" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <p:WordAppendText DisplayName="Add Message" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_11" Text="[&quot;There have been no registrations since &quot; + fromTime.ToString]" />
+                  </Sequence>
+                </If.Else>
+              </If>
+              <If Condition="[retrievedUpdateLogs.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="1075,1659" sap2010:WorkflowViewState.IdRef="If_3">
+                <If.Then>
+                  <Sequence DisplayName="Add Updates" sap:VirtualizedContainerService.HintSize="554,1512" sap2010:WorkflowViewState.IdRef="Sequence_48">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Append Updates Header" sap:VirtualizedContainerService.HintSize="512,104" sap2010:WorkflowViewState.IdRef="WordAppendText_7" Text="Updates" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="512,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_22" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:ForEach x:TypeArguments="ui:QueueItem" CurrentIndex="{x:Null}" DisplayName="For Update Log" sap:VirtualizedContainerService.HintSize="512,1149" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[retrievedUpdateLogs]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="ui:QueueItem">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="ui:QueueItem" Name="log" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Extract Details and Add to Report" sap:VirtualizedContainerService.HintSize="476,1016" sap2010:WorkflowViewState.IdRef="Sequence_35">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="processState" />
+                              <Variable x:TypeArguments="x:String" Name="email" />
+                              <Variable x:TypeArguments="x:String" Name="fullName" />
+                              <Variable x:TypeArguments="x:String" Name="dateTimeStarted" />
+                              <Variable x:TypeArguments="x:String" Name="street" />
+                              <Variable x:TypeArguments="x:String" Name="city" />
+                              <Variable x:TypeArguments="x:String" Name="postcode" />
+                              <Variable x:TypeArguments="x:String" Name="country" />
+                              <Variable x:TypeArguments="x:String" Name="phone" />
+                              <Variable x:TypeArguments="x:String" Name="contentPref" />
+                              <Variable x:TypeArguments="x:String" Name="interval" />
+                              <Variable x:TypeArguments="x:String" Name="summary" />
+                              <Variable x:TypeArguments="x:String" Name="newDetails" />
+                              <Variable x:TypeArguments="x:String" Name="logInfo" />
+                              <Variable x:TypeArguments="x:String" Name="oldName" />
+                              <Variable x:TypeArguments="x:String" Name="oldStreet" />
+                              <Variable x:TypeArguments="x:String" Name="oldCity" />
+                              <Variable x:TypeArguments="x:String" Name="oldPostcode" />
+                              <Variable x:TypeArguments="x:String" Name="oldCountry" />
+                              <Variable x:TypeArguments="x:String" Name="oldPhone" />
+                              <Variable x:TypeArguments="x:String" Name="oldContentPref" />
+                              <Variable x:TypeArguments="x:String" Name="oldInterval" />
+                              <Variable x:TypeArguments="x:String" Name="oldDetails" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:MultipleAssign DisplayName="Extract Log Info" sap:VirtualizedContainerService.HintSize="434,780" sap2010:WorkflowViewState.IdRef="MultipleAssign_5">
+                              <ui:MultipleAssign.AssignOperations>
+                                <scg:List x:TypeArguments="ui:AssignOperation" Capacity="32">
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_25">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[processState]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Status.ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_26">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[dateTimeStarted]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.StartTransactionTime.ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_27">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Email").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_28">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[fullName]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("First Name").ToString + " " + log.SpecificContent("Last Name").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_29">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[street]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Street").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_30">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[city]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("City").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_31">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[postcode]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Postcode").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_32">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[country]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Country").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_33">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[phone]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Phone Number").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_34">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Content Preference").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_35">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Interval").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_39">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldName]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old First Name").ToString + " " + log.Output("Old Last Name").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_68">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldStreet]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old Street").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_69">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldCity]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old City").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_70">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldPostcode]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old Postcode").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_71">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldCountry]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old Country").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_72">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldPhone]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old Phone Number").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_73">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldContentPref]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old Content Preference").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_74">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldInterval]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Output("Old Interval").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_75">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[summary]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.Format("{0} - {1} Update @ {2}" + vbNewLine, email, processState, dateTimeStarted)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_76">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldDetails]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.format("Changed from {0}, {1}, {2}, {3}, {4}, {5}" + vbNewLine + "receiving {6} content {7}" + vbNewLine, oldName, oldStreet, oldCity, oldPostcode, oldCountry, oldPhone, oldContentPref, oldInterval)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_77">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[newDetails]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.format("to {0}, {1}, {2}, {3}, {4}, {5}" + vbNewLine + "receiving {6} content {7}", fullName, street, city, postcode, country, phone, contentPref, interval)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_78">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[logInfo]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[vbTab + summary + oldDetails + newDetails]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                </scg:List>
+                              </ui:MultipleAssign.AssignOperations>
+                            </ui:MultipleAssign>
+                            <p:WordAppendText DisplayName="Add Log" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_4" Text="[logInfo]" />
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                    </ui:ForEach>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="No Updates" sap:VirtualizedContainerService.HintSize="476,467" sap2010:WorkflowViewState.IdRef="Sequence_52">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Append Updates Header" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_12" Text="Updates" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="434,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_26" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <p:WordAppendText DisplayName="Add Message" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_13" Text="[&quot;There have been no updates since &quot; + fromTime.ToString]" />
+                  </Sequence>
+                </If.Else>
+              </If>
+              <If Condition="[retrievedDeleteLogs.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="1362,1380" sap2010:WorkflowViewState.IdRef="If_4">
+                <If.Then>
+                  <Sequence DisplayName="Add Deletions" sap:VirtualizedContainerService.HintSize="554,1233" sap2010:WorkflowViewState.IdRef="Sequence_49">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Append Deletions Header" sap:VirtualizedContainerService.HintSize="512,104" sap2010:WorkflowViewState.IdRef="WordAppendText_8" Text="Deletions" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="512,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_23" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:ForEach x:TypeArguments="ui:QueueItem" CurrentIndex="{x:Null}" DisplayName="For Each Delete Log" sap:VirtualizedContainerService.HintSize="512,870" sap2010:WorkflowViewState.IdRef="ForEach`1_6" Values="[retrievedDeleteLogs]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="ui:QueueItem">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="ui:QueueItem" Name="log" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Extract Details and Add to Report" sap:VirtualizedContainerService.HintSize="476,737" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="processState" />
+                              <Variable x:TypeArguments="x:String" Name="email" />
+                              <Variable x:TypeArguments="x:String" Name="fullName" />
+                              <Variable x:TypeArguments="x:String" Name="dateTimeStarted" />
+                              <Variable x:TypeArguments="x:String" Name="street" />
+                              <Variable x:TypeArguments="x:String" Name="city" />
+                              <Variable x:TypeArguments="x:String" Name="postcode" />
+                              <Variable x:TypeArguments="x:String" Name="country" />
+                              <Variable x:TypeArguments="x:String" Name="phone" />
+                              <Variable x:TypeArguments="x:String" Name="contentPref" />
+                              <Variable x:TypeArguments="x:String" Name="interval" />
+                              <Variable x:TypeArguments="x:String" Name="summary" />
+                              <Variable x:TypeArguments="x:String" Name="newDetails" />
+                              <Variable x:TypeArguments="x:String" Name="logInfo" />
+                              <Variable x:TypeArguments="x:String" Name="oldDetails" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <ui:MultipleAssign DisplayName="Extract Log Info" sap:VirtualizedContainerService.HintSize="434,501" sap2010:WorkflowViewState.IdRef="MultipleAssign_6">
+                              <ui:MultipleAssign.AssignOperations>
+                                <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_40">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[processState]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.Status.ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_41">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[dateTimeStarted]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.StartTransactionTime.ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_42">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Email").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_43">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[fullName]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("First Name").ToString + " " + log.SpecificContent("Last Name").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_44">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[street]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Street").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_45">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[city]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("City").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_46">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[postcode]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Postcode").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_47">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[country]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Country").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_48">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[phone]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Phone Number").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_49">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Content Preference").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_50">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[log.SpecificContent("Interval").ToString]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_51">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[summary]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.Format("{0} - {1} Deletion @ {2}" + vbNewLine, email, processState, dateTimeStarted)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_52">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[oldDetails]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[String.format("{0}, {1}, {2}, {3}, {4}, {5}" + vbNewLine + "was receiving {6} content {7}", fullName, street, city, postcode, country, phone, contentPref, interval)]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                  <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_53">
+                                    <ui:AssignOperation.To>
+                                      <OutArgument x:TypeArguments="x:String">[logInfo]</OutArgument>
+                                    </ui:AssignOperation.To>
+                                    <ui:AssignOperation.Value>
+                                      <InArgument x:TypeArguments="x:String">[vbTab + summary + oldDetails]</InArgument>
+                                    </ui:AssignOperation.Value>
+                                  </ui:AssignOperation>
+                                </scg:List>
+                              </ui:MultipleAssign.AssignOperations>
+                            </ui:MultipleAssign>
+                            <p:WordAppendText DisplayName="Add Log" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_5" Text="[logInfo]" />
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                    </ui:ForEach>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="No Deletions" sap:VirtualizedContainerService.HintSize="476,467" sap2010:WorkflowViewState.IdRef="Sequence_53">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Append Deletions Header" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_14" Text="Deletions" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="434,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_27" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <p:WordAppendText DisplayName="Add Message" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_15" Text="[&quot;There have been no deletions since &quot; + fromTime.ToString]" />
+                  </Sequence>
+                </If.Else>
+              </If>
+              <If Condition="[retrievedTransmissionLogs.Count &gt; 0]" sap:VirtualizedContainerService.HintSize="1362,1403" sap2010:WorkflowViewState.IdRef="If_5">
+                <If.Then>
+                  <Sequence DisplayName="Add Transmissions" sap:VirtualizedContainerService.HintSize="841,1256" sap2010:WorkflowViewState.IdRef="Sequence_50">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Append Transmissions Header" sap:VirtualizedContainerService.HintSize="799,104" sap2010:WorkflowViewState.IdRef="WordAppendText_9" Text="Transmissions" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="799,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_24" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <ui:ForEach x:TypeArguments="ui:QueueItem" CurrentIndex="{x:Null}" DisplayName="For Each Transmission Log" sap:VirtualizedContainerService.HintSize="799,893" sap2010:WorkflowViewState.IdRef="ForEach`1_7" Values="[retrievedTransmissionLogs]">
+                      <ui:ForEach.Body>
+                        <ActivityAction x:TypeArguments="ui:QueueItem">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="ui:QueueItem" Name="log" />
+                          </ActivityAction.Argument>
+                          <Sequence DisplayName="Extract Details and Add to Report" sap:VirtualizedContainerService.HintSize="763,760" sap2010:WorkflowViewState.IdRef="Sequence_37">
+                            <Sequence.Variables>
+                              <Variable x:TypeArguments="x:String" Name="processState" />
+                              <Variable x:TypeArguments="x:String" Name="email" />
+                              <Variable x:TypeArguments="x:String" Name="fullName" />
+                              <Variable x:TypeArguments="x:String" Name="dateTimeStarted" />
+                              <Variable x:TypeArguments="x:String" Name="street" />
+                              <Variable x:TypeArguments="x:String" Name="city" />
+                              <Variable x:TypeArguments="x:String" Name="postcode" />
+                              <Variable x:TypeArguments="x:String" Name="country" />
+                              <Variable x:TypeArguments="x:String" Name="phone" />
+                              <Variable x:TypeArguments="x:String" Name="contentPref" />
+                              <Variable x:TypeArguments="x:String" Name="interval" />
+                              <Variable x:TypeArguments="x:String" Name="summary" />
+                              <Variable x:TypeArguments="x:String" Name="newDetails" />
+                              <Variable x:TypeArguments="x:String" Name="logInfo" />
+                              <Variable x:TypeArguments="x:String" Name="preferenceDetails" />
+                              <Variable x:TypeArguments="x:String" Name="firstContent" />
+                            </Sequence.Variables>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                            <If Condition="[log.Status = QueueItemStatus.New]" sap:VirtualizedContainerService.HintSize="721,524" sap2010:WorkflowViewState.IdRef="If_1">
+                              <If.Then>
+                                <ui:MultipleAssign DisplayName="Extract Log Info" sap:VirtualizedContainerService.HintSize="338,284" sap2010:WorkflowViewState.IdRef="MultipleAssign_8">
+                                  <ui:MultipleAssign.AssignOperations>
+                                    <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_86">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Email").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_87">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[fullName]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Name").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_88">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Content Preference").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_89">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Interval").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_90">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[summary]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[String.Format("{0} - Pending Transmission: ", email)]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_91">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[preferenceDetails]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[String.format("{0} receives {1} content {2}.", fullName, contentPref, interval)]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_92">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[logInfo]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[vbTab + summary + preferenceDetails]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                    </scg:List>
+                                  </ui:MultipleAssign.AssignOperations>
+                                </ui:MultipleAssign>
+                              </If.Then>
+                              <If.Else>
+                                <ui:MultipleAssign DisplayName="Extract Log Info" sap:VirtualizedContainerService.HintSize="338,377" sap2010:WorkflowViewState.IdRef="MultipleAssign_7">
+                                  <ui:MultipleAssign.AssignOperations>
+                                    <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_54">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[processState]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.Status.ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_55">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[dateTimeStarted]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.StartTransactionTime.ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_56">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Email").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_57">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[fullName]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Name").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_63">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Content Preference").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_80">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.SpecificContent("Interval").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_81">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[summary]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[String.Format("{0} - {1} Transmission @ {2}" + vbNewLine, email, processState, dateTimeStarted)]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_82">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[preferenceDetails]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[String.format("{0} receives {1} content {2}. This transmission began with:" + vbNewLine, fullName, contentPref, interval)]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_83">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[firstContent]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[log.Output("First Section of Content").ToString]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_84">
+                                        <ui:AssignOperation.To>
+                                          <OutArgument x:TypeArguments="x:String">[logInfo]</OutArgument>
+                                        </ui:AssignOperation.To>
+                                        <ui:AssignOperation.Value>
+                                          <InArgument x:TypeArguments="x:String">[vbTab + summary + preferenceDetails + firstContent]</InArgument>
+                                        </ui:AssignOperation.Value>
+                                      </ui:AssignOperation>
+                                    </scg:List>
+                                  </ui:MultipleAssign.AssignOperations>
+                                </ui:MultipleAssign>
+                              </If.Else>
+                            </If>
+                            <p:WordAppendText DisplayName="Add Log" sap:VirtualizedContainerService.HintSize="721,104" sap2010:WorkflowViewState.IdRef="WordAppendText_6" Text="[logInfo]" />
+                          </Sequence>
+                        </ActivityAction>
+                      </ui:ForEach.Body>
+                    </ui:ForEach>
+                  </Sequence>
+                </If.Then>
+                <If.Else>
+                  <Sequence DisplayName="No Transmissions" sap:VirtualizedContainerService.HintSize="476,467" sap2010:WorkflowViewState.IdRef="Sequence_54">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <p:WordAppendText DisplayName="Append Transmissions Header" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_16" Text="Transmissions" />
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Format Header" sap:VirtualizedContainerService.HintSize="434,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_28" UnSafe="False" WorkflowFileName="FormatReportHeader.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <scg:Dictionary x:TypeArguments="x:String, Argument" />
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <p:WordAppendText DisplayName="Add Message" sap:VirtualizedContainerService.HintSize="434,104" sap2010:WorkflowViewState.IdRef="WordAppendText_17" Text="[&quot;There have been no transmissions since &quot; + fromTime.ToString]" />
+                  </Sequence>
+                </If.Else>
+              </If>
+              <p:WordExportToPdf DisplayName="Export To PDF" FilePath="[&quot;Reports/Report (&quot; + fromTime.ToString.Replace(&quot;/&quot;, &quot;-&quot;).Replace(&quot;:&quot;, &quot;-&quot;) + &quot; - &quot; + toTime.ToString.Replace(&quot;/&quot;, &quot;-&quot;).Replace(&quot;:&quot;, &quot;-&quot;) + &quot;).pdf&quot;]" sap:VirtualizedContainerService.HintSize="1362,84" sap2010:WorkflowViewState.IdRef="WordExportToPdf_1" />
+            </Sequence>
+          </ActivityAction>
+        </p:WordApplicationScope.Body>
+      </p:WordApplicationScope>
+    </Sequence>
+  </Sequence>
+</Activity>

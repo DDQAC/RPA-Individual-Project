@@ -1,0 +1,38 @@
+<html>
+
+<head>
+	<style>
+	hr |
+		border: 1px solid black;
+	¬
+	</style>
+</head>
+
+<body>
+
+<p>
+	Dear [0], <br />
+	<br />	
+	Here is your content for today:
+	
+</p>
+
+<p>
+	{0}
+</p>
+
+<hr />
+
+<p>
+	{1}
+</p>
+
+<hr />
+
+<p>
+	{2}
+</p>
+
+</body>
+
+</html>

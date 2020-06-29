@@ -10,5 +10,7 @@
 	"TestCompanyEmail":"ToborleroneTest@outlook.com",
 	"TestUser1Email":"ToborleroneTestUser1@gmail.com",
 	"TestUser2Email":"ToborleroneTestUser2@gmail.com",
-	"TestUser3Email":"ToborleroneTestUser3@gmail.com"
+	"TestUser3Email":"ToborleroneTestUser3@gmail.com",
+	"LogsFrom":"",
+	"LogsTo":""
 }

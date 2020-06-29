@@ -1,8 +1,8 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="SendUpdateandDeleteEmailsTest" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="SendUpdateandDeleteEmailsTest" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="config" Type="InArgument(njl:JObject)" />
   </x:Members>
-  <sap:VirtualizedContainerService.HintSize>680,2020</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>680,3155</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="34">
@@ -48,15 +48,17 @@
       <AssemblyReference>UiPath.CV</AssemblyReference>
       <AssemblyReference>System.ServiceModel</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.Word</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Send Update and Delete Emails Test" sap:VirtualizedContainerService.HintSize="528,1915" sap2010:WorkflowViewState.IdRef="Sequence_4">
+  <Sequence DisplayName="Send Update and Delete Emails Test" sap:VirtualizedContainerService.HintSize="598,3050" sap2010:WorkflowViewState.IdRef="Sequence_4">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Sequence DisplayName="Update User 1" sap:VirtualizedContainerService.HintSize="486,923" sap2010:WorkflowViewState.IdRef="Sequence_2">
+    <Sequence DisplayName="Update User 1" sap:VirtualizedContainerService.HintSize="556,1377" sap2010:WorkflowViewState.IdRef="Sequence_2">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:String" Name="email" />
         <Variable x:TypeArguments="x:String" Name="password" />
@@ -81,7 +83,7 @@
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <Assign DisplayName="Set User as TestUser1" sap:VirtualizedContainerService.HintSize="444,60" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign DisplayName="Set User as TestUser1" sap:VirtualizedContainerService.HintSize="514,60" sap2010:WorkflowViewState.IdRef="Assign_1">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[user]</OutArgument>
         </Assign.To>
@@ -89,8 +91,8 @@
           <InArgument x:TypeArguments="x:String">TestUser1</InArgument>
         </Assign.Value>
       </Assign>
-      <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[user + &quot;Email&quot;]" DisplayName="Get Email Credentials" sap:VirtualizedContainerService.HintSize="444,22" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[securePassword]" Username="[email]" />
-      <Assign DisplayName="Decrypt Password" sap:VirtualizedContainerService.HintSize="444,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+      <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[user + &quot;Email&quot;]" DisplayName="Get Email Credentials" sap:VirtualizedContainerService.HintSize="514,22" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[securePassword]" Username="[email]" />
+      <Assign DisplayName="Decrypt Password" sap:VirtualizedContainerService.HintSize="514,60" sap2010:WorkflowViewState.IdRef="Assign_2">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[password]</OutArgument>
         </Assign.To>
@@ -98,39 +100,59 @@
           <InArgument x:TypeArguments="x:String">[new System.Net.NetworkCredential(string.Empty, securePassword).Password]</InArgument>
         </Assign.Value>
       </Assign>
-      <ui:OpenBrowser CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" BrowserType="Chrome" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="444,342" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" UiBrowser="[browser]" Url="[config(&quot;detailsBaseURL&quot;).ToString]">
+      <ui:OpenBrowser CommunicationMethod="{x:Null}" Hidden="{x:Null}" NewSession="{x:Null}" Private="{x:Null}" BrowserType="Chrome" DisplayName="Open Browser" sap:VirtualizedContainerService.HintSize="514,569" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" UiBrowser="[browser]" Url="[config(&quot;detailsBaseURL&quot;).ToString]">
         <ui:OpenBrowser.Body>
           <ActivityAction x:TypeArguments="x:Object">
             <ActivityAction.Argument>
               <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
             </ActivityAction.Argument>
-            <Sequence DisplayName="Generate New User Details for Update" sap:VirtualizedContainerService.HintSize="376,241" sap2010:WorkflowViewState.IdRef="Sequence_1">
+            <Sequence DisplayName="Generate New User Details for Update" sap:VirtualizedContainerService.HintSize="480,468" sap2010:WorkflowViewState.IdRef="Sequence_1">
               <sap:WorkflowViewStateService.ViewState>
                 <scg:Dictionary x:TypeArguments="x:String, x:Object">
                   <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                 </scg:Dictionary>
               </sap:WorkflowViewStateService.ViewState>
-              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Scrape New Dummy User Details" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="GenerateNewDummyUserDetails.xaml">
-                <ui:InvokeWorkflowFile.Arguments>
-                  <OutArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="street">[street]</OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="city">[city]</OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="country">[country]</OutArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="interval">[interval]</OutArgument>
-                  <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="phoneComplete">[phone]</OutArgument>
-                  <InArgument x:TypeArguments="ui:Browser" x:Key="browser">[browser]</InArgument>
-                  <OutArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</OutArgument>
-                </ui:InvokeWorkflowFile.Arguments>
-              </ui:InvokeWorkflowFile>
-              <ui:CloseTab Browser="[browser]" DisplayName="Close Tab" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="CloseTab_1" />
+              <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,314" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+                <TryCatch.Try>
+                  <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Scrape New Dummy User Details" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="GenerateNewDummyUserDetails.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <OutArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="street">[street]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="city">[city]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="country">[country]</OutArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="interval">[interval]</OutArgument>
+                      <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="phoneComplete">[phone]</OutArgument>
+                      <InArgument x:TypeArguments="ui:Browser" x:Key="browser">[browser]</InArgument>
+                      <OutArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                </TryCatch.Try>
+                <TryCatch.Catches>
+                  <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ActivityAction x:TypeArguments="s:Exception">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                      </ActivityAction.Argument>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[&quot;New User Details for Update Email could not be Generated&quot;]" />
+                    </ActivityAction>
+                  </Catch>
+                </TryCatch.Catches>
+              </TryCatch>
+              <ui:CloseTab Browser="[browser]" DisplayName="Close Tab" sap:VirtualizedContainerService.HintSize="438,22" sap2010:WorkflowViewState.IdRef="CloseTab_1" />
             </Sequence>
           </ActivityAction>
         </ui:OpenBrowser.Body>
       </ui:OpenBrowser>
-      <Assign DisplayName="Set Subject to UPDATE" sap:VirtualizedContainerService.HintSize="444,60" sap2010:WorkflowViewState.IdRef="Assign_3">
+      <Assign DisplayName="Set Subject to UPDATE" sap:VirtualizedContainerService.HintSize="514,60" sap2010:WorkflowViewState.IdRef="Assign_3">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[subject]</OutArgument>
         </Assign.To>
@@ -138,25 +160,45 @@
           <InArgument x:TypeArguments="x:String">UPDATE</InArgument>
         </Assign.Value>
       </Assign>
-      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Update Email" sap:VirtualizedContainerService.HintSize="444,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmail.xaml">
-        <ui:InvokeWorkflowFile.Arguments>
-          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="password">[password]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="street">[street]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="city">[city]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="country">[country]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="interval">[interval]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="phone">[phone]</InArgument>
-          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</InArgument>
-        </ui:InvokeWorkflowFile.Arguments>
-      </ui:InvokeWorkflowFile>
+      <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="514,314" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+        <TryCatch.Try>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Update Email" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmail.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="password">[password]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="street">[street]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="city">[city]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="country">[country]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="interval">[interval]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="phone">[phone]</InArgument>
+              <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+        </TryCatch.Try>
+        <TryCatch.Catches>
+          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ActivityAction x:TypeArguments="s:Exception">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+              </ActivityAction.Argument>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[&quot;Update User Test Email could not be sent&quot;]" />
+            </ActivityAction>
+          </Catch>
+        </TryCatch.Catches>
+      </TryCatch>
     </Sequence>
-    <Sequence DisplayName="Delete User 2" sap:VirtualizedContainerService.HintSize="486,860" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <Sequence DisplayName="Delete User 2" sap:VirtualizedContainerService.HintSize="556,1541" sap2010:WorkflowViewState.IdRef="Sequence_3">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:String" Name="email" />
         <Variable x:TypeArguments="x:String" Name="password" />
@@ -180,7 +222,7 @@
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <Assign DisplayName="Set User as TestUser2" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign DisplayName="Set User as TestUser2" sap:VirtualizedContainerService.HintSize="438,60" sap2010:WorkflowViewState.IdRef="Assign_4">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[user]</OutArgument>
         </Assign.To>
@@ -188,8 +230,8 @@
           <InArgument x:TypeArguments="x:String">TestUser2</InArgument>
         </Assign.Value>
       </Assign>
-      <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[user + &quot;Email&quot;]" DisplayName="Get Email Credentials" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="GetRobotCredential_2" Password="[securePassword]" Username="[email]" />
-      <Assign DisplayName="Decrypt Password" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+      <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="[user + &quot;Email&quot;]" DisplayName="Get Email Credentials" sap:VirtualizedContainerService.HintSize="438,22" sap2010:WorkflowViewState.IdRef="GetRobotCredential_2" Password="[securePassword]" Username="[email]" />
+      <Assign DisplayName="Decrypt Password" sap:VirtualizedContainerService.HintSize="438,60" sap2010:WorkflowViewState.IdRef="Assign_5">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[password]</OutArgument>
         </Assign.To>
@@ -197,51 +239,65 @@
           <InArgument x:TypeArguments="x:String">[new System.Net.NetworkCredential(string.Empty, securePassword).Password]</InArgument>
         </Assign.Value>
       </Assign>
-      <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[userDetailsDT]" Delimitator="Comma" DisplayName="Retrieve Customer Records" FilePath="[config(&quot;UserDetailsCSVFilepath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
-      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Retrieve Customer Details" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="RetrieveCustomerDetails.xaml">
-        <ui:InvokeWorkflowFile.Arguments>
-          <OutArgument x:TypeArguments="x:String" x:Key="firstName">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="firstName" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="lastName">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="lastName" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="street">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="street" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="city">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="city" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="postcode">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="postcode" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="country">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="country" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="phone">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="phone" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="contentPref">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="contentPref" />
-          </OutArgument>
-          <OutArgument x:TypeArguments="x:String" x:Key="interval">
-            <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="interval" />
-          </OutArgument>
-          <InArgument x:TypeArguments="njl:JObject" x:Key="config">
-            <mva:VisualBasicValue x:TypeArguments="njl:JObject" ExpressionText="config" />
-          </InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="email">
-            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="email" />
-          </InArgument>
-          <OutArgument x:TypeArguments="sd:DataRow" x:Key="customer">
-            <mva:VisualBasicReference x:TypeArguments="sd:DataRow" ExpressionText="customer" />
-          </OutArgument>
-          <InArgument x:TypeArguments="sd:DataTable" x:Key="userDetailsDT">
-            <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="userDetailsDT" />
-          </InArgument>
-        </ui:InvokeWorkflowFile.Arguments>
-      </ui:InvokeWorkflowFile>
-      <Assign DisplayName="Set Subject to DELETE" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+      <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,379" sap2010:WorkflowViewState.IdRef="TryCatch_3">
+        <TryCatch.Try>
+          <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[userDetailsDT]" Delimitator="Comma" DisplayName="Retrieve Customer Records" FilePath="[config(&quot;UserDetailsCSVFilepath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
+        </TryCatch.Try>
+        <TryCatch.Catches>
+          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ActivityAction x:TypeArguments="s:Exception">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+              </ActivityAction.Argument>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Fatal" Message="[&quot;The User Database cannot be found! - check that it is stored under UserDetails.csv or enable user data generation to create 50 more records&quot;]" />
+            </ActivityAction>
+          </Catch>
+        </TryCatch.Catches>
+      </TryCatch>
+      <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,314" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+        <TryCatch.Try>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Retrieve Customer Details" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="RetrieveCustomerDetails.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <OutArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="street">[street]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="city">[city]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="country">[country]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="phone">[phone]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</OutArgument>
+              <OutArgument x:TypeArguments="x:String" x:Key="interval">[interval]</OutArgument>
+              <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+              <OutArgument x:TypeArguments="sd:DataRow" x:Key="customer">[customer]</OutArgument>
+              <InArgument x:TypeArguments="sd:DataTable" x:Key="userDetailsDT">[userDetailsDT]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+        </TryCatch.Try>
+        <TryCatch.Catches>
+          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_4">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ActivityAction x:TypeArguments="s:Exception">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+              </ActivityAction.Argument>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Error" Message="[&quot;Could not find or retrieve Customer Details - this customer may not exist&quot;]" />
+            </ActivityAction>
+          </Catch>
+        </TryCatch.Catches>
+      </TryCatch>
+      <Assign DisplayName="Set Subject to DELETE" sap:VirtualizedContainerService.HintSize="438,60" sap2010:WorkflowViewState.IdRef="Assign_6">
         <Assign.To>
           <OutArgument x:TypeArguments="x:String">[subject]</OutArgument>
         </Assign.To>
@@ -249,23 +305,43 @@
           <InArgument x:TypeArguments="x:String">DELETE</InArgument>
         </Assign.Value>
       </Assign>
-      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Removal Email" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmail.xaml">
-        <ui:InvokeWorkflowFile.Arguments>
-          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="password">[password]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="street">[street]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="city">[city]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="country">[country]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="interval">[interval]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="phone">[phone]</InArgument>
-          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
-          <InArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</InArgument>
-        </ui:InvokeWorkflowFile.Arguments>
-      </ui:InvokeWorkflowFile>
+      <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="438,314" sap2010:WorkflowViewState.IdRef="TryCatch_5">
+        <TryCatch.Try>
+          <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Removal Email" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_4" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmail.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="password">[password]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="street">[street]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="city">[city]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="country">[country]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="interval">[interval]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="phone">[phone]</InArgument>
+              <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</InArgument>
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+        </TryCatch.Try>
+        <TryCatch.Catches>
+          <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_5">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ActivityAction x:TypeArguments="s:Exception">
+              <ActivityAction.Argument>
+                <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+              </ActivityAction.Argument>
+              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Error" Message="[&quot;The Delete User Details Test Email could not be sent!&quot;]" />
+            </ActivityAction>
+          </Catch>
+        </TryCatch.Catches>
+      </TryCatch>
     </Sequence>
   </Sequence>
 </Activity>

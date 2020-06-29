@@ -1,0 +1,38 @@
+<html>
+
+<head>
+	<style>
+	hr |
+		border: 1px solid black;
+	¬
+	</style>
+</head>
+
+<body>
+
+<p>
+	Dear {0}, <br />
+	<br />	
+	Here is your content for today:
+	
+</p>
+
+<p>
+	In 2004 Steve Bisciotti was approved to purchase the Baltimore Ravens. He became the new owner, replacing Art Model. (Sports  > Baltimore Ravens  )
+</p>
+
+<hr />
+
+<p>
+	Wendell Scott kept a loaded pistol underneath his front seat. He took it out mid-race just the one time - and never again did that guy threaten to wreck him off a track.
+</p>
+
+<hr />
+
+<p>
+	The most recent easing of lockdown restrictions allows people who play contact or team sports like football to practice in groups of up to six but ...
+</p>
+
+</body>
+
+</html>

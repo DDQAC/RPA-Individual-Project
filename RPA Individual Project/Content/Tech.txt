@@ -1,0 +1,38 @@
+<html>
+
+<head>
+	<style>
+	hr |
+		border: 1px solid black;
+	¬
+	</style>
+</head>
+
+<body>
+
+<p>
+	Dear {0}, <br />
+	<br />	
+	Here is your content for today:
+	
+</p>
+
+<p>
+	There are two robots on Mars - Spirit and Opportunity. They were built to last 90 days on Mars but they lasted for several years. Curiosity is the latest rover to land on Mars to explore the planet. (Technology  > Robots  )
+</p>
+
+<hr />
+
+<p>
+	Singapore has started to hand out Bluetooth-enabled contact tracing devices as part of its measures to slow the spread of the coronavirus.
+</p>
+
+<hr />
+
+<p>
+	BMW has got one of the first use cases for Apple’s ultra-wideband tech with its digital car key, but the future of UWB goes way beyond cars
+</p>
+
+</body>
+
+</html>
