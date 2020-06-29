@@ -1,0 +1,39 @@
+<html>
+
+<head>
+	<style>
+	hr |
+		border: 1px solid black;
+	¬
+	</style>
+</head>
+
+<body>
+
+<p>
+	Dear {0}, <br />
+	<br />	
+	Here is your content for today:
+	
+</p>
+
+<p>
+	Fava bean contains substances that can prevent development of certain types of cancer and Parkinson disease. (Plants  > Fava bean  )
+</p>
+
+<hr />
+
+<p>
+	The genus Aesculus (/ˈɛskjʊləs/{1} or /ˈaɪskjʊləs/), with varieties called buckeye and horse chestnut, comprises 13–19 species of flowering plants in the soapberry and lychee family, Sapindaceae. They are trees and shrubs native to the temperate Northern Hemisphere, with six species native to North America and seven to thirteen species native to Eurasia. Also, several hybrids occur. Aesculus exhibits a classical Arcto-Tertiary distribution.{a}
+
+</p>
+
+<hr />
+
+<p>
+	Perhaps you’ve used the same garden hose for several years and find it’s time to buy a new one. This leaves the problem of what to do with an old hose. I didn’t have any immediate ideas either, or even how to discard it, but after looking online and giving it some thought, I’m finding lots of ways to upcycle or repurpose a garden hose.
+</p>
+
+</body>
+
+</html>

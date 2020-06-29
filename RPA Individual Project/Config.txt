@@ -1,0 +1,16 @@
+{
+	"detailsBaseURL":"https://www.bestrandoms.com",
+	"firstNamesURL":"https://www.bestrandoms.com/random-names",
+	"lastNamesURL":"https://www.bestrandoms.com/random-last-names",
+	"addressURL":"https://www.bestrandoms.com/random-address-in-uk",
+	"generateNewUsers":"no",
+	"howManyUsers":"50",
+	"UserDetailsCSVFilepath":"UserDetails.csv",
+	"PreferenceList":[ "Sport", "Tech", "Hobbies" ],
+	"TestCompanyEmail":"ToborleroneTest@outlook.com",
+	"TestUser1Email":"ToborleroneTestUser1@gmail.com",
+	"TestUser2Email":"ToborleroneTestUser2@gmail.com",
+	"TestUser3Email":"ToborleroneTestUser3@gmail.com",
+	"LogsFrom":"",
+	"LogsTo":""
+}

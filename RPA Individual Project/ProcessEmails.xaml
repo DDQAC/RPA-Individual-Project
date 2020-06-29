@@ -1,0 +1,810 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="ProcessEmails" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="config" Type="InArgument(njl:JObject)" />
+  </x:Members>
+  <sap:VirtualizedContainerService.HintSize>993,2831</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>ActivityBuilder_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="18">
+      <x:String>System.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Process Emails" sap:VirtualizedContainerService.HintSize="1003,2726" sap2010:WorkflowViewState.IdRef="Sequence_16">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="retrievedEmails" />
+      <Variable x:TypeArguments="sd:DataTable" Name="userDetailsDT" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:GetOutlookMailMessages Filter="{x:Null}" TimeoutMS="{x:Null}" Account="[config(&quot;TestCompanyEmail&quot;).ToString]" DisplayName="Get Emails from Company Inbox" GetAttachements="False" sap:VirtualizedContainerService.HintSize="961,22" sap2010:WorkflowViewState.IdRef="GetOutlookMailMessages_1" MailFolder="Inbox" MarkAsRead="True" Messages="[retrievedEmails]" OnlyUnreadMessages="False" Top="30" />
+    <TryCatch DisplayName="Try Catch" sap:VirtualizedContainerService.HintSize="961,379" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+      <TryCatch.Try>
+        <ui:ReadCsvFile Encoding="{x:Null}" DataTable="[userDetailsDT]" Delimitator="Comma" DisplayName="Retrieve Customer Records" FilePath="[config(&quot;UserDetailsCSVFilepath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="334,152" sap2010:WorkflowViewState.IdRef="ReadCsvFile_1" />
+      </TryCatch.Try>
+      <TryCatch.Catches>
+        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ActivityAction x:TypeArguments="s:Exception">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+            </ActivityAction.Argument>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Fatal" Message="[&quot;The User Database cannot be found! - check that it is stored under UserDetails.csv or enable user data generation to create 50 more records&quot;]" />
+          </ActivityAction>
+        </Catch>
+      </TryCatch.Catches>
+    </TryCatch>
+    <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each Email" sap:VirtualizedContainerService.HintSize="961,2153" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[retrievedEmails]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="snm:MailMessage">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="message" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Process Email" sap:VirtualizedContainerService.HintSize="925,2019" sap2010:WorkflowViewState.IdRef="Sequence_15">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:String" Name="emailBody" />
+              <Variable x:TypeArguments="x:String" Name="firstName" />
+              <Variable x:TypeArguments="s:String[]" Name="EBTableRows" />
+              <Variable x:TypeArguments="x:String" Name="lastName" />
+              <Variable x:TypeArguments="x:String" Name="street" />
+              <Variable x:TypeArguments="x:String" Name="city" />
+              <Variable x:TypeArguments="x:String" Name="postcode" />
+              <Variable x:TypeArguments="x:String" Name="country" />
+              <Variable x:TypeArguments="x:String" Name="phone" />
+              <Variable x:TypeArguments="x:String" Name="email" />
+              <Variable x:TypeArguments="x:String" Name="contentPref" />
+              <Variable x:TypeArguments="x:String" Name="interval" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Switch x:TypeArguments="x:String" DisplayName="Check Subject to Decide Process" Expression="[message.Subject]" sap:VirtualizedContainerService.HintSize="883,1927" sap2010:WorkflowViewState.IdRef="Switch`1_1">
+              <Sequence x:Key="REGISTRATION" DisplayName="Check Database and Register New User" sap:VirtualizedContainerService.HintSize="843,1572" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="ui:QueueItem" Name="processLog" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MultipleAssign DisplayName="Extract User Details From Email Body" sap:VirtualizedContainerService.HintSize="801,439" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+                  <ui:MultipleAssign.AssignOperations>
+                    <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[emailBody]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[message.Body]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="s:String[]">[EBTableRows]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="s:String[]">[Split(emailBody, vbTab + " " + vbCrLf)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[firstName]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(0), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[lastName]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(1), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[street]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(2), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_6">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[city]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(3), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_7">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[postcode]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(4), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_8">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[country]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(5), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_9">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[phone]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(6), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_10">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(7), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_11">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(8), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_12">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(9), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                    </scg:List>
+                  </ui:MultipleAssign.AssignOperations>
+                </ui:MultipleAssign>
+                <ui:AddTransactionItem ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Open Registration Log" sap:VirtualizedContainerService.HintSize="801,22" sap2010:WorkflowViewState.IdRef="AddTransactionItem_1" QueueType="Toborlerone Logs" Reference="[&quot;REGISTRATION - &quot; + email]" TransactionItem="[processLog]">
+                  <ui:AddTransactionItem.TransactionInformation>
+                    <InArgument x:TypeArguments="x:String" x:Key="First Name">[firstName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Last Name">[lastName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Street">[street]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="City">[city]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Postcode">[postcode]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Country">[country]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Phone Number">[phone]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Email">[email]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Content Preference">[contentPref]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Interval">[interval]</InArgument>
+                  </ui:AddTransactionItem.TransactionInformation>
+                </ui:AddTransactionItem>
+                <If Condition="[userDetailsDT.AsEnumerable().Any(Function(x) x(&quot;Email&quot;).ToString = email)]" DisplayName="If User Email is Already Registered" sap:VirtualizedContainerService.HintSize="801,939" sap2010:WorkflowViewState.IdRef="If_1">
+                  <If.Then>
+                    <Sequence DisplayName="Log Failed Registration" sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Error" Message="[&quot;User Registration Error - User is already registered&quot;]" />
+                      <ui:SetTransactionStatus ContinueOnError="{x:Null}" ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" Details="A user with that email address is already registered in the database" DisplayName="Log Failed Registration" ErrorType="Business" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="SetTransactionStatus_1" Reason="User already registered" Status="Failed" TransactionItem="[processLog]">
+                        <ui:SetTransactionStatus.Analytics>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Analytics>
+                        <ui:SetTransactionStatus.Output>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Output>
+                      </ui:SetTransactionStatus>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence DisplayName="Register New User" sap:VirtualizedContainerService.HintSize="380,791" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:String" Name="ReplyText" />
+                        <Variable x:TypeArguments="x:String" Name="subject" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{firstName, lastName, street, city, postcode, country, phone, email, contentPref, interval}]" DataTable="[userDetailsDT]" DisplayName="Add New User Details" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+                      <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[userDetailsDT]" Delimitator="Comma" DisplayName="Write Data Table to CSV" FilePath="[config(&quot;UserDetailsCSVFilepath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="338,152" sap2010:WorkflowViewState.IdRef="WriteCsvFile_1" />
+                      <ui:MultipleAssign DisplayName="Set Subject and Reply Text" sap:VirtualizedContainerService.HintSize="338,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_4">
+                        <ui:MultipleAssign.AssignOperations>
+                          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_23">
+                              <ui:AssignOperation.To>
+                                <OutArgument x:TypeArguments="x:String">[subject]</OutArgument>
+                              </ui:AssignOperation.To>
+                              <ui:AssignOperation.Value>
+                                <InArgument x:TypeArguments="x:String">Registration Confirmation</InArgument>
+                              </ui:AssignOperation.Value>
+                            </ui:AssignOperation>
+                            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_24">
+                              <ui:AssignOperation.To>
+                                <OutArgument x:TypeArguments="x:String">[ReplyText]</OutArgument>
+                              </ui:AssignOperation.To>
+                              <ui:AssignOperation.Value>
+                                <InArgument x:TypeArguments="x:String">Your registration request was processed successfully! &lt;br /&gt; The details below are those which we now have on record for you:</InArgument>
+                              </ui:AssignOperation.Value>
+                            </ui:AssignOperation>
+                          </scg:List>
+                        </ui:MultipleAssign.AssignOperations>
+                      </ui:MultipleAssign>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Registration Confirmation Reply Email" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmailReply.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="street">[street]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="city">[city]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="country">[country]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="interval">[interval]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="phone">[phone]</InArgument>
+                          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="ReplyText">[ReplyText]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <ui:MoveOutlookMessage Account="[config(&quot;TestCompanyEmail&quot;).ToString]" DisplayName="Move Registration Request to Registrations Folder" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="MoveOutlookMessage_1" MailFolder="Inbox\Registrations" MailMessage="[message]" />
+                      <ui:SetTransactionStatus ContinueOnError="{x:Null}" Reason="{x:Null}" ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Log Successful Registration" ErrorType="Business" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="SetTransactionStatus_2" Status="Successful" TransactionItem="[processLog]">
+                        <ui:SetTransactionStatus.Analytics>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Analytics>
+                        <ui:SetTransactionStatus.Output>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Output>
+                      </ui:SetTransactionStatus>
+                    </Sequence>
+                  </If.Else>
+                </If>
+              </Sequence>
+              <Sequence x:Key="UPDATE" DisplayName="Check Database and Update User" sap:VirtualizedContainerService.HintSize="843,1761" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="oldFirstName" />
+                  <Variable x:TypeArguments="x:String" Name="oldLastName" />
+                  <Variable x:TypeArguments="x:String" Name="oldStreet" />
+                  <Variable x:TypeArguments="x:String" Name="oldCity" />
+                  <Variable x:TypeArguments="x:String" Name="oldPostcode" />
+                  <Variable x:TypeArguments="x:String" Name="oldCountry" />
+                  <Variable x:TypeArguments="x:String" Name="oldPhone" />
+                  <Variable x:TypeArguments="x:String" Name="oldInterval" />
+                  <Variable x:TypeArguments="sd:DataRow" Name="customer" />
+                  <Variable x:TypeArguments="x:String" Name="oldContentPref" />
+                  <Variable x:TypeArguments="ui:QueueItem" Name="processLog" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MultipleAssign DisplayName="Extract User Details From Email Body" sap:VirtualizedContainerService.HintSize="801,439" sap2010:WorkflowViewState.IdRef="MultipleAssign_5">
+                  <ui:MultipleAssign.AssignOperations>
+                    <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_25">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[emailBody]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[message.Body]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_26">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="s:String[]">[EBTableRows]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="s:String[]">[Split(emailBody, vbTab + " " + vbCrLf)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_27">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[firstName]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(0), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_28">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[lastName]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(1), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_29">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[street]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(2), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_30">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[city]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(3), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_31">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[postcode]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(4), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_32">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[country]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(5), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_33">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[phone]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(6), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_34">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(7), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_35">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(8), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_36">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(9), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                    </scg:List>
+                  </ui:MultipleAssign.AssignOperations>
+                </ui:MultipleAssign>
+                <ui:AddTransactionItem ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Open Update Log" sap:VirtualizedContainerService.HintSize="801,22" sap2010:WorkflowViewState.IdRef="AddTransactionItem_2" QueueType="Toborlerone Logs" Reference="[&quot;UPDATE - &quot; + email]" TransactionItem="[processLog]">
+                  <ui:AddTransactionItem.TransactionInformation>
+                    <InArgument x:TypeArguments="x:String" x:Key="First Name">[firstName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Last Name">[lastName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Street">[street]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="City">[city]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Postcode">[postcode]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Country">[country]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Phone Number">[phone]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Email">[email]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Content Preference">[contentPref]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Interval">[interval]</InArgument>
+                  </ui:AddTransactionItem.TransactionInformation>
+                </ui:AddTransactionItem>
+                <If Condition="[userDetailsDT.AsEnumerable().Any(Function(x) x(&quot;Email&quot;).ToString = email)]" DisplayName="If User Exists in Database" sap:VirtualizedContainerService.HintSize="801,1128" sap2010:WorkflowViewState.IdRef="If_2">
+                  <If.Then>
+                    <Sequence DisplayName="Update User" sap:VirtualizedContainerService.HintSize="380,980" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:String" Name="ReplyText" />
+                        <Variable x:TypeArguments="x:String" Name="subject" />
+                        <Variable x:TypeArguments="x:String" Name="response" />
+                        <Variable x:TypeArguments="x:Int32" Name="status" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Retrieve Old Customer Details From Database" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_15" UnSafe="False" WorkflowFileName="RetrieveCustomerDetails.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <OutArgument x:TypeArguments="x:String" x:Key="firstName">[oldFirstName]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="lastName">[oldLastName]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="street">[oldStreet]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="city">[oldCity]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="postcode">[oldPostcode]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="country">[oldCountry]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="phone">[oldPhone]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="contentPref">[oldContentPref]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="interval">[oldInterval]</OutArgument>
+                          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+                          <OutArgument x:TypeArguments="sd:DataRow" x:Key="customer">[customer]</OutArgument>
+                          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="userDetailsDT">[userDetailsDT]</InOutArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <ui:RemoveDataRow RowIndex="{x:Null}" DataTable="[userDetailsDT]" DisplayName="Remove Old User Details" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="RemoveDataRow_1" Row="[customer]" />
+                      <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[{firstName, lastName, street, city, postcode, country, phone, email, contentPref, interval}]" DataTable="[userDetailsDT]" DisplayName="Add New User Details" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="AddDataRow_2" />
+                      <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[userDetailsDT]" Delimitator="Comma" DisplayName="Write Data Table to CSV" FilePath="[config(&quot;UserDetailsCSVFilepath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="338,152" sap2010:WorkflowViewState.IdRef="WriteCsvFile_2" />
+                      <ui:MultipleAssign DisplayName="Set Subject and Reply Text" sap:VirtualizedContainerService.HintSize="338,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_6">
+                        <ui:MultipleAssign.AssignOperations>
+                          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_37">
+                              <ui:AssignOperation.To>
+                                <OutArgument x:TypeArguments="x:String">[subject]</OutArgument>
+                              </ui:AssignOperation.To>
+                              <ui:AssignOperation.Value>
+                                <InArgument x:TypeArguments="x:String">Update Confirmation</InArgument>
+                              </ui:AssignOperation.Value>
+                            </ui:AssignOperation>
+                            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_38">
+                              <ui:AssignOperation.To>
+                                <OutArgument x:TypeArguments="x:String">[ReplyText]</OutArgument>
+                              </ui:AssignOperation.To>
+                              <ui:AssignOperation.Value>
+                                <InArgument x:TypeArguments="x:String">Your details update request was processed successfully! &lt;br /&gt; The table below shows your old details and those which we now have on record for you:</InArgument>
+                              </ui:AssignOperation.Value>
+                            </ui:AssignOperation>
+                          </scg:List>
+                        </ui:MultipleAssign.AssignOperations>
+                      </ui:MultipleAssign>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Update Confirmation Reply Email" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_14" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmailReply.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="firstName">[oldFirstName + "&lt;/td&gt;&lt;td&gt;" + firstName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="lastName">[oldLastName + "&lt;/td&gt;&lt;td&gt;" + lastName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="street">[oldStreet + "&lt;/td&gt;&lt;td&gt;" + street]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="city" xml:space="preserve">[oldCity  + "&lt;/td&gt;&lt;td&gt;" + city]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="postcode">[oldPostcode + "&lt;/td&gt;&lt;td&gt;" + postcode]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="country">[oldCountry + "&lt;/td&gt;&lt;td&gt;" + country]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="phone">[oldPhone + "&lt;/td&gt;&lt;td&gt;" + phone]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="contentPref">[oldContentPref + "&lt;/td&gt;&lt;td&gt;" + contentPref]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="interval">[oldInterval + "&lt;/td&gt;&lt;td&gt;" + interval]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="ReplyText">[ReplyText]</InArgument>
+                          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <ui:MoveOutlookMessage Account="[config(&quot;TestCompanyEmail&quot;).ToString]" DisplayName="Move Update Request to Updates Folder" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="MoveOutlookMessage_2" MailFolder="Inbox\Updates" MailMessage="[message]" />
+                      <ui:SetTransactionStatus ContinueOnError="{x:Null}" Reason="{x:Null}" ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Log Successful Update" ErrorType="Business" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="SetTransactionStatus_4" Status="Successful" TransactionItem="[processLog]">
+                        <ui:SetTransactionStatus.Analytics>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Analytics>
+                        <ui:SetTransactionStatus.Output>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old First Name">[oldFirstName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Last Name">[oldLastName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Street">[oldStreet]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old City">[oldCity]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Postcode">[oldPostcode]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Country">[oldCountry]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Phone Number">[oldPhone]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Email">[email]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Content Preference">[oldContentPref]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="Old Interval">[oldInterval]</InArgument>
+                        </ui:SetTransactionStatus.Output>
+                      </ui:SetTransactionStatus>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence DisplayName="Log Failed Update" sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Error" Message="[&quot;User Update Error - User is not registered&quot;]" />
+                      <ui:SetTransactionStatus ContinueOnError="{x:Null}" ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" Details="There is no user registered with that email in the database to update" DisplayName="Log Failed Update" ErrorType="Business" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="SetTransactionStatus_3" Reason="User not registered" Status="Failed" TransactionItem="[processLog]">
+                        <ui:SetTransactionStatus.Analytics>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Analytics>
+                        <ui:SetTransactionStatus.Output>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Output>
+                      </ui:SetTransactionStatus>
+                    </Sequence>
+                  </If.Else>
+                </If>
+              </Sequence>
+              <Sequence x:Key="DELETE" DisplayName="Check Database and Delete User" sap:VirtualizedContainerService.HintSize="843,1699" sap2010:WorkflowViewState.IdRef="Sequence_26">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="ui:QueueItem" Name="processLog" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:MultipleAssign DisplayName="Extract User Details From Email Body" sap:VirtualizedContainerService.HintSize="801,439" sap2010:WorkflowViewState.IdRef="MultipleAssign_7">
+                  <ui:MultipleAssign.AssignOperations>
+                    <scg:List x:TypeArguments="ui:AssignOperation" Capacity="16">
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_39">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[emailBody]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[message.Body]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_40">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="s:String[]">[EBTableRows]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="s:String[]">[Split(emailBody, vbTab + " " + vbCrLf)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_41">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[firstName]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(0), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_42">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[lastName]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(1), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_43">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[street]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(2), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_44">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[city]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(3), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_45">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[postcode]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(4), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_46">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[country]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(5), vbTab)(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_47">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[phone]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(6), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_48">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[email]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(7), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_49">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[contentPref]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(8), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                      <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_50">
+                        <ui:AssignOperation.To>
+                          <OutArgument x:TypeArguments="x:String">[interval]</OutArgument>
+                        </ui:AssignOperation.To>
+                        <ui:AssignOperation.Value>
+                          <InArgument x:TypeArguments="x:String">[Split(EBTableRows(9), vbTab + " ")(1)]</InArgument>
+                        </ui:AssignOperation.Value>
+                      </ui:AssignOperation>
+                    </scg:List>
+                  </ui:MultipleAssign.AssignOperations>
+                </ui:MultipleAssign>
+                <ui:AddTransactionItem ContinueOnError="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Open Delete Log" sap:VirtualizedContainerService.HintSize="801,22" sap2010:WorkflowViewState.IdRef="AddTransactionItem_3" QueueType="Toborlerone Logs" Reference="[&quot;DELETE - &quot; + email]" TransactionItem="[processLog]">
+                  <ui:AddTransactionItem.TransactionInformation>
+                    <InArgument x:TypeArguments="x:String" x:Key="First Name">[firstName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Last Name">[lastName]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Street">[street]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="City">[city]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Postcode">[postcode]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Country">[country]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Phone Number">[phone]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Email">[email]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Content Preference">[contentPref]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Interval">[interval]</InArgument>
+                  </ui:AddTransactionItem.TransactionInformation>
+                </ui:AddTransactionItem>
+                <If Condition="[userDetailsDT.AsEnumerable().Any(Function(x) x(&quot;Email&quot;).ToString = email)]" DisplayName="If User Exists in Database" sap:VirtualizedContainerService.HintSize="801,1066" sap2010:WorkflowViewState.IdRef="If_3">
+                  <If.Then>
+                    <Sequence DisplayName="Delete User" sap:VirtualizedContainerService.HintSize="380,918" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="x:String" Name="ReplyText" />
+                        <Variable x:TypeArguments="x:String" Name="subject" />
+                        <Variable x:TypeArguments="x:String" Name="oldFirstName" />
+                        <Variable x:TypeArguments="x:String" Name="oldLastName" />
+                        <Variable x:TypeArguments="x:String" Name="oldStreet" />
+                        <Variable x:TypeArguments="x:String" Name="oldCity" />
+                        <Variable x:TypeArguments="x:String" Name="oldPostcode" />
+                        <Variable x:TypeArguments="x:String" Name="oldCountry" />
+                        <Variable x:TypeArguments="x:String" Name="oldPhone" />
+                        <Variable x:TypeArguments="x:String" Name="oldContentPref" />
+                        <Variable x:TypeArguments="x:String" Name="oldInterval" />
+                        <Variable x:TypeArguments="sd:DataRow" Name="customer" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Retrieve Customer Details From Database" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="RetrieveCustomerDetails.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <OutArgument x:TypeArguments="x:String" x:Key="firstName">[oldFirstName]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="lastName">[oldLastName]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="street">[oldStreet]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="city">[oldCity]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="postcode">[oldPostcode]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="country">[oldCountry]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="phone">[oldPhone]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="contentPref">[oldContentPref]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="interval">[oldInterval]</OutArgument>
+                          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+                          <OutArgument x:TypeArguments="sd:DataRow" x:Key="customer">[customer]</OutArgument>
+                          <InOutArgument x:TypeArguments="sd:DataTable" x:Key="userDetailsDT">[userDetailsDT]</InOutArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <ui:RemoveDataRow RowIndex="{x:Null}" DataTable="[userDetailsDT]" DisplayName="Remove User Details" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="RemoveDataRow_2" Row="[customer]" />
+                      <ui:WriteCsvFile Encoding="{x:Null}" AddHeaders="True" DataTable="[userDetailsDT]" Delimitator="Comma" DisplayName="Write Data Table to CSV" FilePath="[config(&quot;UserDetailsCSVFilepath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="338,152" sap2010:WorkflowViewState.IdRef="WriteCsvFile_3" />
+                      <ui:MultipleAssign DisplayName="Set Subject and Reply Text" sap:VirtualizedContainerService.HintSize="338,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_8">
+                        <ui:MultipleAssign.AssignOperations>
+                          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+                            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_51">
+                              <ui:AssignOperation.To>
+                                <OutArgument x:TypeArguments="x:String">[subject]</OutArgument>
+                              </ui:AssignOperation.To>
+                              <ui:AssignOperation.Value>
+                                <InArgument x:TypeArguments="x:String">Removal Confirmation</InArgument>
+                              </ui:AssignOperation.Value>
+                            </ui:AssignOperation>
+                            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_52">
+                              <ui:AssignOperation.To>
+                                <OutArgument x:TypeArguments="x:String">[ReplyText]</OutArgument>
+                              </ui:AssignOperation.To>
+                              <ui:AssignOperation.Value>
+                                <InArgument x:TypeArguments="x:String">Your user details removal request was processed successfully! &lt;br /&gt; The details below are those which we deleted:</InArgument>
+                              </ui:AssignOperation.Value>
+                            </ui:AssignOperation>
+                          </scg:List>
+                        </ui:MultipleAssign.AssignOperations>
+                      </ui:MultipleAssign>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Send Removal Confirmation Reply Email" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_17" UnSafe="False" WorkflowFileName="SendUserDetailsInteractionEmailReply.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InArgument x:TypeArguments="x:String" x:Key="email">[email]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="firstName">[firstName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="lastName">[lastName]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="street">[street]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="city">[city]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="postcode">[postcode]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="country">[country]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="interval">[interval]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="phone">[phone]</InArgument>
+                          <InArgument x:TypeArguments="njl:JObject" x:Key="config">[config]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="subject">[subject]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="contentPref">[contentPref]</InArgument>
+                          <InArgument x:TypeArguments="x:String" x:Key="ReplyText">[ReplyText]</InArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                      <ui:MoveOutlookMessage Account="[config(&quot;TestCompanyEmail&quot;).ToString]" DisplayName="Move Removal Request to Deletions Folder" sap:VirtualizedContainerService.HintSize="338,87" sap2010:WorkflowViewState.IdRef="MoveOutlookMessage_3" MailFolder="Inbox\Deletions" MailMessage="[message]" />
+                      <ui:SetTransactionStatus ContinueOnError="{x:Null}" Reason="{x:Null}" ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Log Successful Delete" ErrorType="Business" sap:VirtualizedContainerService.HintSize="338,22" sap2010:WorkflowViewState.IdRef="SetTransactionStatus_5" Status="Successful" TransactionItem="[processLog]">
+                        <ui:SetTransactionStatus.Analytics>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Analytics>
+                        <ui:SetTransactionStatus.Output>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Output>
+                      </ui:SetTransactionStatus>
+                    </Sequence>
+                  </If.Then>
+                  <If.Else>
+                    <Sequence DisplayName="Log Failed User Removal" sap:VirtualizedContainerService.HintSize="376,245" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Error" Message="[&quot;User Removal Error - User does not exist in database&quot;]" />
+                      <ui:SetTransactionStatus ContinueOnError="{x:Null}" ServiceBaseAddress="{x:Null}" TimeoutMS="{x:Null}" Details="There is no user registered with that email in the database to delete" DisplayName="Log Failed Delete" ErrorType="Business" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="SetTransactionStatus_6" Reason="User does not exist" Status="Failed" TransactionItem="[processLog]">
+                        <ui:SetTransactionStatus.Analytics>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Analytics>
+                        <ui:SetTransactionStatus.Output>
+                          <scg:Dictionary x:TypeArguments="x:String, InArgument" />
+                        </ui:SetTransactionStatus.Output>
+                      </ui:SetTransactionStatus>
+                    </Sequence>
+                  </If.Else>
+                </If>
+              </Sequence>
+            </Switch>
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+  </Sequence>
+</Activity>
